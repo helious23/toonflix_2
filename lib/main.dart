@@ -15,7 +15,15 @@ class _AppState extends State<App> {
   int counter = 0;
 
   void onClicked() {
-    counter += 1;
+    setState(() {
+      counter += 1;
+    });
+  }
+
+  void onRefreshed() {
+    setState(() {
+      counter = 0;
+    });
   }
 
   @override
@@ -40,11 +48,19 @@ class _AppState extends State<App> {
                 ),
               ),
               IconButton(
-                  iconSize: 48,
-                  onPressed: onClicked,
-                  icon: const Icon(
-                    Icons.add_box_rounded,
-                  ))
+                iconSize: 48,
+                onPressed: onClicked,
+                icon: const Icon(
+                  Icons.add_box_rounded,
+                ),
+              ),
+              IconButton(
+                iconSize: 24,
+                onPressed: onRefreshed,
+                icon: const Icon(
+                  Icons.refresh,
+                ),
+              ),
             ],
           ),
         ),
