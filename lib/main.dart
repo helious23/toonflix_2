@@ -14,51 +14,43 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   List<int> numbers = [];
 
-  void onClicked() {
-    setState(() {
-      numbers.add(numbers.length);
-    });
-  }
-
-  void onRefreshed() {
-    setState(() {
-      numbers = [];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFFF4EDDB),
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      ),
+      home: const Scaffold(
+        backgroundColor: Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Click count',
-                style: TextStyle(
-                  fontSize: 30,
-                ),
-              ),
-              for (var num in numbers) Text('$num'),
-              IconButton(
-                iconSize: 48,
-                onPressed: onClicked,
-                icon: const Icon(
-                  Icons.add_box_rounded,
-                ),
-              ),
-              IconButton(
-                iconSize: 24,
-                onPressed: onRefreshed,
-                icon: const Icon(
-                  Icons.refresh,
-                ),
-              ),
+              MyLargeTitle(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MyLargeTitle extends StatelessWidget {
+  const MyLargeTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'My Large Title',
+      style: TextStyle(
+        fontSize: 30,
+        color: Theme.of(context).textTheme.titleLarge?.color,
       ),
     );
   }
