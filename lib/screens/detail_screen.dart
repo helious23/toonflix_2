@@ -72,21 +72,35 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 25,
+          ),
           FutureBuilder(
             future: webtoon,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 10,
                     horizontal: 50,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 50,
+                      Text(
+                        snapshot.data!.about,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
-                      Text(snapshot.data!.about),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        '${snapshot.data!.genre} / ${snapshot.data!.age}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -113,9 +127,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 );
               }
-              return const Center(
-                child: LoadingIndicator(),
-              );
+              return Container();
             },
           )
         ],
