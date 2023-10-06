@@ -44,46 +44,41 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Hero(
-                tag: widget.id,
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(5, 5),
-                        color: Colors.black.withOpacity(0.3),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(15),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(50),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: widget.id,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 15,
+                          offset: const Offset(5, 5),
+                          color: Colors.black.withOpacity(0.3),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    width: 250,
+                    child: Image.network(widget.thumb),
                   ),
-                  clipBehavior: Clip.hardEdge,
-                  width: 250,
-                  child: Image.network(widget.thumb),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          FutureBuilder(
-            future: webtoon,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                  ),
-                  child: Column(
+              ],
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            FutureBuilder(
+              future: webtoon,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -102,35 +97,75 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                     ],
-                  ),
+                  );
+                }
+                return const Center(
+                  child: LoadingIndicator(),
                 );
-              }
-              return const Center(
-                child: LoadingIndicator(),
-              );
-            },
-          ),
-          FutureBuilder(
-            future: episodes,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Expanded(
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      var episode = snapshot.data![index];
-                      return Text(episode.title);
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 10,
-                    ),
-                    itemCount: snapshot.data!.length,
-                  ),
-                );
-              }
-              return Container();
-            },
-          )
-        ],
+              },
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            FutureBuilder(
+              future: episodes,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      for (var episode in snapshot.data!)
+                        Container(
+                          margin: const EdgeInsets.only(
+                            bottom: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: Colors.green.shade200),
+                              bottom: BorderSide(color: Colors.green.shade200),
+                              left: BorderSide(color: Colors.green.shade200),
+                              right: BorderSide(color: Colors.green.shade200),
+                            ),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 1,
+                                offset: const Offset(3, 3),
+                                color: Colors.green.withOpacity(0.5),
+                              )
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  episode.title,
+                                  style: TextStyle(
+                                      color: Colors.green.shade400,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Colors.green.shade400,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            )
+          ],
+        ),
       ),
     );
   }
